@@ -1,0 +1,87 @@
+---
+title: "日経平均_corona"
+author: "Masuda Atsuki"
+date: "5/13/2020"
+output: html_document
+---
+```{r , message=F}
+library(tidyverse)
+library(KFAS)
+library(forecast)
+library(ggplot2)
+library(lubridate)
+library(DT)
+target_col  <- as.name( "value")
+yyyymmdd    <-  as.name("date")
+corona_start <- "2020-02-20"
+```
+```{r, echo=F, message=F}
+path <- "~/git_website/state_space_model/nikkei-225-index-historical-chart-data.csv"
+```
+## データロード
+```{r }
+#https://www.macrotrends.net/2593/nikkei-225-index-historical-chart-data
+df <- read_csv(path, skip=13) %>%
+  filter(!!yyyymmdd >="2019-11-01")
+#df$value <- df$value + rnorm(nrow(df),0,200)
+df %>% DT::datatable()
+#df <- tibble(value=Nile, date=time(Nile))
+```
+## とりあえずPLOT
+```{r }
+ggplot()+
+  geom_line(data=df, mapping = aes(x=!!yyyymmdd, y=!!target_col))+
+  geom_vline(aes(xintercept=ymd(corona_start)), color="#990000", linetype="dashed")
+```
+点線をcoronaの開始期間とする→2020-02-20
+- 季節性の確認の為自己相関
+```{r }
+acf(select(df,!!target_col)[[1]] ,lag.max = 100)
+```
+## コロナFLG作成
+```{r }
+df <-
+  df %>%
+  mutate(corona_flg=if_else(!!yyyymmdd>=corona_start,1,0))
+# 目的変数
+target <- df %>% select(!!target_col) %>% .[[1]]
+# 説明変数
+corona_flg <- df$corona_flg
+```
+## ローカルレベルモデル + coronaフラグ変数
+### 観測方程式, 状態方程式の定義
+```{r }
+build_trend <- SSModel(
+  H = NA,
+  target ~
+    SSMtrend(degree = 1, Q = c(list(NA))) +
+    SSMregression(~corona_flg,Q=NA)
+    #SSMseasonal(period = 7, sea.type = "dummy", Q=NA)
+)
+```
+### 分散パラメ-タ推定とFiltering とSmoothing
+```{r }
+# 最尤法で分散パラメータを推定10,10,10は初期値
+fit <- fitSSM(build_trend, inits = c( 10, 10, 13))
+# filtering and smoothing
+fil_smth <- KFS(fit$model)
+```
+## 結果
+### 結果を整理
+```{r }
+res_df <-
+  data.frame(
+    time = select(df,!!yyyymmdd)[[1]],
+    y = target,
+    smooth_level  = fil_smth$alphahat[, "level"] %>% c(),
+    smooth_corona = fil_smth$alphahat[, "corona_flg"] %>% c()
+    ) %>%
+  as_tibble()
+```
+### 可視化
+```{r }
+ggplot()+
+  geom_line(data = res_df, mapping=aes(x = time, y = smooth_level  ), colour="red" ) +
+  geom_line(data = res_df, mapping=aes(x = time, y = y  ) )
+ggplot() +
+  geom_line(data = res_df %>% filter(time>=corona_start), aes(x = time, y = smooth_corona))
