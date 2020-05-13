@@ -1,0 +1,71 @@
+---
+title: "見せかけの回帰"
+author: "masuun"
+date: "5/10/2020"
+output: 
+  html_document:
+    fig_caption: yes
+    number_sections: yes
+    pandoc_args:
+    - --from
+    - markdown+autolink_bare_uris+tex_math_single_backslash-implicit_figures
+    theme: default
+    toc: yes
+    toc_depth: 3
+---
+```{r , message=F, echo=F}
+library(tidyverse)
+```
+
+# DATA作成
+random walkのデータを2系列作成
+```{r , message=F}
+set.seed(42)#生命、宇宙、そして万物についての究極の疑問の答え
+rw1 <- rnorm(1000) %>% cumsum
+rw2 <- rnorm(1000) %>% cumsum
+df <- tibble(rw1, rw2)
+```
+
+時系列データとして可視化
+```{r , message=F}
+ggplot(df)+
+geom_line(aes(x=1:nrow(df),y=rw1,colour="rw1"))+
+geom_line(aes(x=1:nrow(df),y=rw2,colour="rw2"))+
+labs(x="step", y ="value", colour="凡例")
+```
+
+# FITTING
+時系列1を目的変数, 時系列2を説明変数として線形回帰
+```{r , message=F}
+res <- lm(data = df, formula = rw1~rw2)
+```
+
+# RESULT
+回帰係数を確認。有意になっている
+```{r , message=F}
+coef_test_tmp <- res %>% summary() %>% .$coefficients 
+
+coef_test_tmp %>% 
+  as_tibble() %>% 
+  mutate(var=rownames(coef_test_tmp) ) %>% 
+  dplyr::select(var, everything() ) %>% 
+  DT::datatable()
+```
+
+散布図として可視化 + 回帰直線
+```{r , message=F}
+coeff <- round(res$coefficients,2)
+eq <- str_c("y=", coeff[1], coeff[2],"x" , sep="")
+
+ggplot(df,aes(x=rw2, y=rw1))+
+geom_point()+
+geom_smooth(method = glm, formula = y~x)+
+annotate("text", x=5, y=10, label=eq, color="blue" )
+```
+
+- ちなみに、当たり前だが差分系列で回をするとちゃんと有意でない
+```{r , message=F}
+df <- df %>% mutate(rw1_diff=rw1-lag(rw1),rw2_diff=rw2-lag(rw2)) 
+lm(data = df, formula = rw1_diff~rw2_diff) %>% summary
+```
+

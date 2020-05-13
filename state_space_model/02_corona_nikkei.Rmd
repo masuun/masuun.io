@@ -1,8 +1,17 @@
 ---
 title: "日経平均_corona"
-author: "Masuda Atsuki"
+author: "masuun"
 date: "5/13/2020"
-output: html_document
+output:   
+  html_document:
+    fig_caption: yes
+    number_sections: yes
+    pandoc_args:
+    - --from
+    - markdown+autolink_bare_uris+tex_math_single_backslash-implicit_figures
+    theme: default
+    toc: yes
+    toc_depth: 3
 ---
 ```{r , message=F}
 library(tidyverse)
@@ -18,8 +27,8 @@ corona_start <- "2020-02-20"
 ```{r, echo=F, message=F}
 path <- "~/git_website/state_space_model/nikkei-225-index-historical-chart-data.csv"
 ```
-## データロード
-```{r }
+# データロード
+```{r , message=F}
 #https://www.macrotrends.net/2593/nikkei-225-index-historical-chart-data
 df <- read_csv(path, skip=13) %>%
   filter(!!yyyymmdd >="2019-11-01")
@@ -27,18 +36,20 @@ df <- read_csv(path, skip=13) %>%
 df %>% DT::datatable()
 #df <- tibble(value=Nile, date=time(Nile))
 ```
-## とりあえずPLOT
+# とりあえずPLOT
 ```{r }
 ggplot()+
   geom_line(data=df, mapping = aes(x=!!yyyymmdd, y=!!target_col))+
   geom_vline(aes(xintercept=ymd(corona_start)), color="#990000", linetype="dashed")
 ```
+
 点線をcoronaの開始期間とする→2020-02-20
+
 - 季節性の確認の為自己相関
 ```{r }
 acf(select(df,!!target_col)[[1]] ,lag.max = 100)
 ```
-## コロナFLG作成
+# コロナFLG作成
 ```{r }
 df <-
   df %>%
@@ -48,8 +59,8 @@ target <- df %>% select(!!target_col) %>% .[[1]]
 # 説明変数
 corona_flg <- df$corona_flg
 ```
-## ローカルレベルモデル + coronaフラグ変数
-### 観測方程式, 状態方程式の定義
+# ローカルレベルモデル + coronaフラグ変数
+## 観測方程式, 状態方程式の定義
 ```{r }
 build_trend <- SSModel(
   H = NA,
@@ -59,15 +70,15 @@ build_trend <- SSModel(
     #SSMseasonal(period = 7, sea.type = "dummy", Q=NA)
 )
 ```
-### 分散パラメ-タ推定とFiltering とSmoothing
+## 分散パラメ-タ推定とFiltering とSmoothing
 ```{r }
 # 最尤法で分散パラメータを推定10,10,10は初期値
 fit <- fitSSM(build_trend, inits = c( 10, 10, 13))
 # filtering and smoothing
 fil_smth <- KFS(fit$model)
 ```
-## 結果
-### 結果を整理
+# 結果
+## 結果を整理
 ```{r }
 res_df <-
   data.frame(
@@ -78,7 +89,7 @@ res_df <-
     ) %>%
   as_tibble()
 ```
-### 可視化
+## 可視化
 ```{r }
 ggplot()+
   geom_line(data = res_df, mapping=aes(x = time, y = smooth_level  ), colour="red" ) +
