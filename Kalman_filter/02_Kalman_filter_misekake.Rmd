@@ -1,0 +1,63 @@
+---
+title: "カルマンフィルタによる見せかけの回帰の回避"
+author: "massun"
+date: "6/2/2020"
+output: html_document
+---
+
+```{r, echo=F, message=F}
+library(tidyverse)
+library(KFAS)
+library(ggplot2)
+library(DT)
+```
+
+### データの作成
+```{r}
+set.seed(2);n=1500
+df <- tibble(t=1:n, y=cumsum(rnorm(n)), x=cumsum(rnorm(n)))
+```
+
+### 時系列プロットと散布図
+```{r}
+ggplot(df,mapping = aes(x=t) )+
+  geom_line(mapping = aes( y=y), colour="red")+
+  geom_line(mapping = aes( y=x), colour="blue")
+ggplot(df)+
+  geom_point(mapping = aes( y=y,x=x))
+```
+
+### 回帰による見せかけの回帰の確認
+```{r}
+lm(formula = y~x, data = df) %>% summary %>% .$coefficients %>% as.matrix() %>% datatable()
+```
+係数0.7, P値ほぼゼロ
+
+### ローカルレベルモデルでFittingとSmoothing
+```{r}
+build_trend <- SSModel(
+  H = NA,
+  df$y ~
+    SSMtrend(degree = 1, Q = c(list(NA))) +
+    SSMregression(~df$x,Q=0)
+)
+## 分散パラメ-タ推定とFiltering とSmoothing
+# 最尤法で分散パラメータを推定10,10,10は初期値
+fit <- fitSSM(build_trend, inits = c( 0, 0, 0))
+# filtering and smoothing
+fil_smth <- KFS(fit$model)
+# 結果
+## 結果を整理
+res_df <-
+  data.frame(
+    time = select(df,t)[[1]],
+    y = df$y,
+    smooth_level  = fil_smth$alphahat[, "level"] %>% c(),
+    smooth_x = fil_smth$alphahat[, "df$x"] %>% c()
+  ) %>%
+  as_tibble()
+```
+```{r}
+res_df %>% head() %>% datatable()
+```
+ちゃんと係数をゼロ付近で推定
