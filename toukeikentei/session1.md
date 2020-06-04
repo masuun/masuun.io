@@ -110,9 +110,6 @@ $
 {\rm Cov}(X,Y)=E(XY)-E(X)E(Y)=\frac{1}{4}-\frac{2}{3} \times \frac{1}{3}=\frac{9-8}{36}=\frac{1}{36}
 $
 
-$$
-\rho(X,Y)=\frac{{\rm Cov}(X,Y)}{\sqrt{V(X)}\sqrt{V(Y)}}=\frac{1}{2}
-$$
 
 ---
 ---
