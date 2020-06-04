@@ -111,7 +111,7 @@ $
 $
 
 $$
-\rho(X,Y)=\frac{{\rm Cov}(X,Y)}{\sqrt{V(X)}\sqrt{V(Y)}}=\frac{\frac{1}{36}}{\frac{1}{18}}=\frac{1}{2}
+\rho(X,Y)=\frac{{\rm Cov}(X,Y)}{\sqrt{V(X)}\sqrt{V(Y)}}=\frac{1}{2}
 $$
 
 ---
