@@ -8,5 +8,9 @@
 ## 確率変数分布
 [01_幾何分布の極限で指数分布を導出](./probability_distribution/01_geometric_distribution.html)
 [02_チェビシェフの不等式](./probability_distribution/02_Chebyshev_inequality.html)
-## 統計検定
+## 統計
+#### 確率分布
+#### 統計検定
 [01_第1章](./toukeikentei/session1.html)
+## 数学メモ
+[01_ガウス積分](./math_memo/Gaussian_integral.html)

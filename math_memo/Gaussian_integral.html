@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>index</title>
+      <title>Gaussian_integral</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -268,25 +268,30 @@ pre[data-line] .line-highlight[data-end]:after {
     </head>
     <body for="html-export">
       <div class="mume markdown-preview  ">
-      <h2 class="mume-header" id="%E7%8A%B6%E6%85%8B%E7%A9%BA%E9%96%93%E3%83%A2%E3%83%87%E3%83%AB">&#x72B6;&#x614B;&#x7A7A;&#x9593;&#x30E2;&#x30C7;&#x30EB;</h2>
-
-<p><a href="./state_space_model/01_Kalman_filter.html">01_&#x7C21;&#x5358;&#x306A;&#x4F8B;&#x3067;&#x307F;&#x308B;&#x30AB;&#x30EB;&#x30DE;&#x30F3;&#x30D5;&#x30A3;&#x30EB;&#x30BF;&#x306E;&#x8003;&#x3048;&#x65B9;</a><br>
-<a href="./state_space_model/02_corona_nikkei.html">02_&#x30B3;&#x30ED;&#x30CA;&#x304C;&#x4E0E;&#x3048;&#x308B;&#x65E5;&#x7D4C;&#x5E73;&#x5747;&#x3078;&#x306E;&#x5F71;&#x97FF;</a><br>
-<a href="./state_space_model/03_Kalman_filter_misekake.html">03_&#x30AB;&#x30EB;&#x30DE;&#x30F3;&#x30D5;&#x30A3;&#x30EB;&#x30BF;&#x3068;&#x898B;&#x305B;&#x304B;&#x3051;&#x306E;&#x56DE;&#x5E30;</a></p>
-<h2 class="mume-header" id="%E7%B7%9A%E5%BD%A2%E5%9B%9E%E5%B8%B0">&#x7DDA;&#x5F62;&#x56DE;&#x5E30;</h2>
-
-<p><a href="./linear_regression/01_spurious_regression.html">01_&#x30E9;&#x30F3;&#x30C0;&#x30E0;&#x30A6;&#x30A9;&#x30FC;&#x30AF;&#x3067;&#x306E;&#x898B;&#x305B;&#x304B;&#x3051;&#x306E;&#x56DE;&#x5E30;</a><br>
-<a href="./linear_regression/02_Gauss-Markov.html">02_&#x30AC;&#x30A6;&#x30B9;&#x30DE;&#x30EB;&#x30B3;&#x30D5;&#x306E;&#x5B9A;&#x7406;</a></p>
-<h2 class="mume-header" id="%E7%A2%BA%E7%8E%87%E5%A4%89%E6%95%B0%E5%88%86%E5%B8%83">&#x78BA;&#x7387;&#x5909;&#x6570;&#x5206;&#x5E03;</h2>
-
-<p><a href="./probability_distribution/01_geometric_distribution.html">01_&#x5E7E;&#x4F55;&#x5206;&#x5E03;&#x306E;&#x6975;&#x9650;&#x3067;&#x6307;&#x6570;&#x5206;&#x5E03;&#x3092;&#x5C0E;&#x51FA;</a><br>
-<a href="./probability_distribution/02_Chebyshev_inequality.html">02_&#x30C1;&#x30A7;&#x30D3;&#x30B7;&#x30A7;&#x30D5;&#x306E;&#x4E0D;&#x7B49;&#x5F0F;</a></p>
-<h2 class="mume-header" id="%E7%B5%B1%E8%A8%88%E6%A4%9C%E5%AE%9A">&#x7D71;&#x8A08;&#x691C;&#x5B9A;</h2>
-
-<p><a href="./toukeikentei/session1.html">01_&#x7B2C;1&#x7AE0;</a></p>
-<h2 class="mume-header" id="%E6%95%B0%E5%AD%A6%E3%83%A1%E3%83%A2">&#x6570;&#x5B66;&#x30E1;&#x30E2;</h2>
-
-<p><a href="./math_memo/Gaussian_integral.html">01_&#x30AC;&#x30A6;&#x30B9;&#x7A4D;&#x5206;</a></p>
+      <script>
+MathJax = { 
+    tex: {
+    inlineMath: [            
+    ['$', '$'],
+    ['\\(', '\\)']
+    ] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<p>&#x6B21;&#x3092;&#x8A08;&#x7B97;&#x3059;&#x308B;&#xFF1B;<br>
+</p><div class="mathjax-exps">$$I=\int_{-\infty}^{+\infty}e^{-x^2}dx$$</div><p></p>
+<hr>
+<p></p><div class="mathjax-exps">$$\begin{align} I^2&amp;=\left(\int_{-\infty}^{+\infty}e^{-x^2}dx\right)\left(\int_{-\infty}^{+\infty}e^{-y^2}dy\right)\\ &amp;=\int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty}e^{-(x^2+y^2)}dxdy\\ &amp;=\int_{0}^{+\infty}\int_{0}^{2\pi}e^{-r^2}rd\theta dr \\ &amp;=2\pi\left[-\frac{1}{2}e^{-r^2} \right]_0^{\infty}\\ &amp;=\pi \end{align}$$</div><br>
+<div class="mathjax-exps">$$I=\sqrt{\pi}$$</div><p></p>
+<hr>
+<ul>
+<li>&#x9BAE;&#x3084;&#x304B;&#x3063;&#x3066;&#x611F;&#x3058;
+<ul>
+<li>2&#x4E57;&#x3057;&#x3066;&#x6975;&#x5EA7;&#x6A19;&#x306B;&#x3057;&#x3066;&#x30E4;&#x30B3;&#x30D3;&#x30A2;&#x30F3;&#x3092;&#x3046;&#x307E;&#x304F;&#x4F7F;&#x3063;&#x3066;&#x3002;&#x8CE2;&#x3044;&#x3002;</li>
+</ul>
+</li>
+<li><span class="mathjax-exps">$e$</span>&#x304B;&#x3089;<span class="mathjax-exps">$\pi$</span>&#x304C;&#x51FA;&#x3066;&#x304F;&#x308B;&#x306E;&#x304C;&#x4E0D;&#x601D;&#x8B70;</li>
+</ul>
 
       </div>
       
