@@ -29,7 +29,7 @@ V(X)&=E(X^2)-E(X)^2
 $$\begin{align}
 E(X)^2=\left\{\sum_{x=0}^n \{x p^x(1-p)^{n-x}{}_nC_{x} \}\right\}^2
 \end{align}$$
-
+$$\begin{align}
 \sum_{x=0}^n \{x p^x(1-p)^{n-x}{}_nC_{x} \}\\
     &=\sum_{x=1}^n \left\{x p^x(1-p)^{n-x}\frac{n!}{(n-x)!x!} \right\}\\
     &=np\sum_{x=1}^n \left\{ p^{x-1}(1-p)^{n-x}\frac{(n-1)!}{(n-x)!(x-1)!} \right\}\\
