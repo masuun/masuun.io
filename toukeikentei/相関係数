@@ -1,0 +1,41 @@
+<script>
+MathJax = { 
+    tex: {
+    inlineMath: [            
+    ['$', '$'],
+    ['\\(', '\\)']
+    ] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+# 相関係数が-1から+1の範囲に収まることの証明?
+データ$x_i$とデータ$y_i$の相関係数$\rho$は以下で表される；
+```math
+\rho = \frac{\sum_i \Delta x_i \Delta y_i}{\sqrt{\sum_j \Delta x_j^2}\sqrt{\sum_k \Delta y_k^2}}    \tag{1}
+```
+ここで
+```math
+\Delta x_i:= x_i - \bar{x}\\
+\Delta y_i:= y_i - \bar{y}
+```
+とした。
+
+さらに、$\Delta {\bf x}=(\Delta x_1,\Delta x_2,\cdots,\Delta x_n)$、$\Delta {\bf y}=(\Delta y_1,\Delta y_2,\cdots,\Delta y_n)$という数ベクトルを考えると、(1)は
+```math
+\rho = \frac{ \Delta {\bf x}\cdot \Delta {\bf y}}{|\Delta {\bf x}||\Delta {\bf y}|}    \tag{2}
+```
+となる。$\Delta {\bf x}$と$\Delta {\bf y}$の成す各を$\theta$とすれば(2)は
+```math
+\rho = \frac{|\Delta {\bf x}||\Delta {\bf y}| \cos\theta }{|\Delta {\bf x}||\Delta {\bf y}|}=\cos\theta    \tag{3}
+```
+となる。したがって
+```math
+-1\leq\rho\leq 1
+```
+となる
+
+----
+
+- 任意の次元でベクトルの内積をノルム✕ノルム✕$\cos \theta$($\theta$はなす角)とおいてもよいのか？
+- 相関係数は、次元がデータサイズに等しい単位ベクトルの内積とみなすことができる
