@@ -1,3 +1,14 @@
+<script>
+MathJax = { 
+    tex: {
+    inlineMath: [            
+    ['$', '$'],
+    ['\\(', '\\)']
+    ] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 ## 接ベクトル
 座標を前提としないな方法でベクトルを定義したい。多様体には任意の局所座標系をとれるから、ある座標系の数ベクトルとして定義すること勝手が悪い。そのため、局所座標系のとり方に無関係なものとして定義したいので、座標を前提としない方法でベクトルを定義する。
 多様体上の点Pの開近傍Uで定義された任意の十分なめらかな実数値関数fと、点pを通る曲線を考える。

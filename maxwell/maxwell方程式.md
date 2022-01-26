@@ -1,3 +1,13 @@
+<script>
+MathJax = { 
+    tex: {
+    inlineMath: [            
+    ['$', '$'],
+    ['\\(', '\\)']
+    ] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 # Maxwell 方程式
 ```math
 {\rm div} {\bf E} = \frac{\rho}{\epsilon_0} \\
